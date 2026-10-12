@@ -3,9 +3,249 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>청년문화패스 통합앱 프로토타입</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<style>:root{--bg:#f3f5f4;--card:#fff;--ink:#1d2523;--sub:#6b7774;--line:#e1e6e4;--brand:#1f9e92;--brand-d:#14766c;--brand-l:#d9f2ee;--pt:#ffc531;--warn:#e5483f;--warn-l:#fde8e6;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121816;--card:#1c2421;--ink:#eef3f1;--sub:#97a5a1;--line:#2c3733;--brand:#4cc9bc;--brand-d:#7fe0d5;--brand-l:#17332f;--warn-l:#3a1f1d}}
+:root[data-theme="dark"]{--bg:#121816;--card:#1c2421;--ink:#eef3f1;--sub:#97a5a1;--line:#2c3733;--brand:#4cc9bc;--brand-d:#7fe0d5;--brand-l:#17332f;--warn-l:#3a1f1d}
+*{box-sizing:border-box;margin:0}html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:'Noto Sans KR',system-ui,sans-serif;font-size:14px;line-height:1.5;display:flex;justify-content:center}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}button:focus-visible,input:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+#app{width:100%;max-width:430px;height:100%;display:flex;flex-direction:column;background:var(--bg);position:relative;overflow:hidden}
+#main{flex:1;overflow-y:auto;padding:16px 16px 24px}
+h1{font-size:22px;font-weight:900;letter-spacing:-.02em;line-height:1.3}h2{font-size:16px;font-weight:700;margin:22px 0 10px}
+.sub{color:var(--sub);font-size:12.5px}.row{display:flex;align-items:center;gap:8px}.between{justify-content:space-between}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px}
+.btn{display:block;width:100%;background:var(--brand);color:#fff;font-weight:700;padding:13px;border-radius:12px;text-align:center}
+.btn.ghost{background:var(--brand-l);color:var(--brand-d)}.btn:disabled{opacity:.4;cursor:not-allowed}
+.chips{display:flex;flex-wrap:wrap;gap:6px}.chip{padding:7px 12px;border-radius:99px;border:1px solid var(--line);background:var(--card);font-size:13px}
+.chip.on{background:var(--brand);border-color:var(--brand);color:#fff;font-weight:700}
+.tabs{display:flex;border-top:1px solid var(--line);background:var(--card)}.tabs button{flex:1;padding:10px 0 12px;font-size:11.5px;color:var(--sub)}.tabs button b{display:block;font-size:19px;line-height:1.2}.tabs .on{color:var(--brand);font-weight:700}
+.hero{background:var(--brand);color:#fff;border-radius:18px;padding:18px}.hero .big{font-size:32px;font-weight:900;letter-spacing:-.03em}
+.bar{height:8px;background:rgba(255,255,255,.3);border-radius:9px;margin:10px 0 6px;overflow:hidden}.bar i{display:block;height:100%;background:var(--pt)}
+.alert{background:var(--warn-l);color:var(--warn);border-radius:12px;padding:11px 13px;font-weight:500;margin-top:12px}
+.alert.ok{background:var(--brand-l);color:var(--brand-d)}
+.show{display:flex;gap:12px;padding:12px;margin-bottom:10px;width:100%;text-align:left}
+.poster{width:62px;height:82px;border-radius:9px;flex:none;display:flex;align-items:flex-end;padding:6px;color:#fff;font-size:11px;font-weight:700}
+.tag{font-size:11px;padding:2px 7px;border-radius:6px;background:var(--brand-l);color:var(--brand-d);font-weight:500}.tag.w{background:var(--warn-l);color:var(--warn)}
+.price{font-weight:700}
+.scrim{position:absolute;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:flex-end;z-index:5}
+.scrim.mid{align-items:center;padding:24px}
+.sheet{background:var(--bg);width:100%;border-radius:20px 20px 0 0;padding:18px 16px calc(18px + env(safe-area-inset-bottom,0px));max-height:88%;overflow-y:auto;animation:up .2s}
+.mid .sheet{border-radius:20px}
+@keyframes up{from{transform:translateY(24px);opacity:0}}@media (prefers-reduced-motion:reduce){.sheet{animation:none}}
+.seat{display:flex;justify-content:space-between;align-items:center;padding:11px 12px;border:1px solid var(--line);border-radius:11px;margin-bottom:8px;width:100%;background:var(--card);text-align:left}
+.seat.on{border:2px solid var(--brand);padding:10px 11px}
+.seat.no{opacity:.55}
+.sum{background:var(--card);border-radius:12px;padding:12px;margin:12px 0;border:1px dashed var(--line)}.sum div{display:flex;justify-content:space-between;padding:2px 0}
+input[type=number],input[type=text]{width:100%;padding:13px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink);font:inherit;font-size:16px}
+.tog{width:44px;height:26px;border-radius:99px;background:var(--line);position:relative;flex:none}.tog.on{background:var(--brand)}.tog::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:.15s}.tog.on::after{left:21px}
+.step{display:flex;gap:6px;margin-bottom:22px}.step i{flex:1;height:4px;border-radius:4px;background:var(--line)}.step i.on{background:var(--brand)}
+.reg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.reg button{padding:12px 4px;border:1px solid var(--line);border-radius:11px;background:var(--card)}.reg .on{border:2px solid var(--brand);color:var(--brand-d);font-weight:700}
+.coupon{display:flex;border:1px solid var(--line);border-radius:12px;background:var(--card);margin-bottom:10px;overflow:hidden}.coupon>div:first-child{flex:1;padding:12px}.coupon>div:last-child{width:84px;border-left:2px dashed var(--line);display:flex;align-items:center;justify-content:center;color:var(--brand-d);font-weight:700}
+.note{font-size:11.5px;color:var(--sub);margin-top:8px}
+.star{font-size:26px;color:var(--line)}.star.on{color:var(--pt)}
+
+/* ===== 온누리 스타일 리디자인 (파란 헤더 + 흰 잔액 카드 + 중앙 원형 버튼 탭바) ===== */
+:root{--bg:#f2f4f8;--brand:#2b64f5;--brand-d:#1a45c4;--brand-l:#e8efff;--line:#e4e8f0}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1420;--card:#19202e;--line:#283043;--brand:#6c93ff;--brand-d:#9db6ff;--brand-l:#1b2745}}
+:root[data-theme="dark"]{--brand:#6c93ff;--brand-d:#9db6ff;--brand-l:#1b2745}
+.top{background:linear-gradient(160deg,#2b64f5,#4f8bff);color:#fff;padding:calc(14px + env(safe-area-inset-top,0px)) 16px 64px}
+.top .logo{font-weight:900;font-size:19px;letter-spacing:-.02em}.top .logo small{font-weight:500;font-size:11px;opacity:.85;display:block;letter-spacing:0}
+.bell{position:relative;font-size:22px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.18)}
+.bell i{position:absolute;top:4px;right:4px;min-width:16px;height:16px;border-radius:9px;background:#ff4d4f;color:#fff;font:700 10px/16px 'Noto Sans KR';font-style:normal;text-align:center}
+.wal{background:var(--card);border-radius:20px;margin:-48px 16px 0;padding:18px;box-shadow:0 6px 20px rgba(30,60,140,.14)}
+.wal .amt{font-size:30px;font-weight:900;letter-spacing:-.03em;margin:2px 0 8px}
+.wal .bar{background:var(--line);margin:8px 0 6px}.wal .bar i{background:var(--brand)}
+.wal .acts{display:flex;gap:8px;margin-top:14px}.wal .acts button{flex:1;padding:11px;border-radius:11px;font-weight:700;background:var(--brand-l);color:var(--brand-d)}.wal .acts button:first-child{background:var(--brand);color:#fff}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:18px 12px 6px}.grid4 button{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:12px;font-weight:500}.grid4 span{width:52px;height:52px;border-radius:18px;background:var(--card);display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 2px 8px rgba(30,60,140,.08)}
+.pad{padding:0 16px}.hs{display:flex;gap:10px;overflow-x:auto;padding:0 16px 6px;scroll-snap-type:x mandatory}.hs>*{flex:none;scroll-snap-align:start}
+.mini{width:150px;border-radius:16px;overflow:hidden;background:var(--card);border:1px solid var(--line);text-align:left}.mini .poster{width:100%;height:96px;border-radius:0}.mini div.b{padding:9px 10px}
+.banner{width:84%;padding:16px;border-radius:16px;color:#fff;text-align:left;background:linear-gradient(135deg,#ffb020,#ff7a45)}.banner.b2{background:linear-gradient(135deg,#27c4a8,#2b64f5)}
+.tabs{display:grid;grid-template-columns:repeat(5,1fr);align-items:end;border-top:0;box-shadow:0 -4px 16px rgba(30,60,140,.08);padding-bottom:env(safe-area-inset-bottom,0px)}
+.tabs .fab{position:relative;top:-14px;padding:0}.tabs .fab b{width:58px;height:58px;border-radius:50%;background:var(--brand);color:#fff;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 6px 14px rgba(43,100,245,.45);border:4px solid var(--bg)}.tabs .fab span{color:var(--brand-d);font-weight:700;font-size:11.5px}
+.pcard{border-radius:18px;padding:18px;color:#fff;background:linear-gradient(135deg,#1a45c4,#4f8bff);margin-bottom:14px}
+.barcode{height:54px;border-radius:8px;margin-top:14px;background:#fff repeating-linear-gradient(90deg,#111 0 2px,#fff 2px 5px,#111 5px 6px,#fff 6px 9px,#111 9px 12px,#fff 12px 14px)}
+.nrow{display:flex;gap:10px;padding:11px 0;border-bottom:1px solid var(--line);text-align:left;width:100%}
+.lbl{font-size:12px;color:var(--sub);margin-bottom:4px}
+
+/* ===== 가독성·질감 조정 ===== */
+body{font-family:'Noto Sans KR',system-ui,sans-serif;font-size:14px;line-height:1.5}
+.top{background:var(--brand)}.banner{background:#e8a317;color:#1d2523}.banner.b2{background:var(--brand-d);color:#fff}
+.wal{box-shadow:0 2px 10px rgba(30,60,140,.1)}.pcard{background:var(--brand-d)}
+.grid4 span{box-shadow:none;border:1px solid var(--line);color:var(--brand);border-radius:16px}
+.grid4 svg,.tabs svg{display:block}.tabs b{display:flex;justify-content:center;margin-bottom:2px}.tabs .fab b{font-size:0}
+.bell{display:flex;align-items:center;justify-content:center;color:#fff}
+.poster{border-radius:8px;font-size:12px;font-weight:700}
+.nrow svg,.card svg{flex:none}
+/* ===== 화면 전환 ===== */
+#main.vin{animation:vin .26s cubic-bezier(.2,.7,.2,1)}
+@keyframes vin{from{opacity:0;transform:translateY(8px)}}
+.scrim{animation:fade .18s}@keyframes fade{from{opacity:0}}
+.chip,.btn,.card,.seat,.tabs button{transition:background-color .15s,border-color .15s,color .15s,transform .1s}
+.btn:active,.chip:active,.seat:active{transform:scale(.98)}
+@media (prefers-reduced-motion:reduce){#main.vin,.scrim,.sheet{animation:none}*{transition:none!important}}
+</style>
 </head><body>
 <div id="app"><div id="main"></div><nav class="tabs" id="tabs"></nav><div id="layer"></div></div>
-<script src="data.js"></script>
-<script src="app.js"></script>
+<script>// 예시 데이터: 실제 서비스에서는 예매처 API/서버 데이터로 교체
+const W=n=>n.toLocaleString('ko-KR')+'원';
+const REG=['서울','경기','인천','부산','대구','전남광주','대전','울산','세종','강원','충북','충남','전북','경북','경남','제주'];
+const CAP=['서울','경기','인천'];
+const GEN=['영화','뮤지컬','연극','전시','콘서트','페스티벌','클래식','무용','도서'];
+const MODE={y26:{name:'2026 현행',age:[19,20],cap:150000,non:200000},y27:{name:'2027 정부안',age:[19,34],cap:100000,non:150000}};
+const COL=['#b4533c','#3d5a80','#4f8a6e','#7a4bb8','#a8641f','#1f7f74','#a63658','#4256c9'];
+const TODAY='2026-10-12'; // 데이터 기준일 (데모)
+const M=(id,t,n,s)=>({id,t,g:'영화',r:'전국',v:'전국 CGV·롯데시네마·메가박스',p:'YES24',seats:[['일반 2D',14000]],s,e:'2026-11-30',n,est:1,nd:1});
+const RAW=[
+M(1,'암살자(들)','박스오피스 1위 (10/8 기준)','2026-09-23'),
+M(2,'극장판 치이카와: 인어 섬의 비밀','박스오피스 2위 (10/8 기준)','2026-09-30'),
+M(3,'타짜: 벨제붑의 노래','박스오피스 3위 (10/8 기준)','2026-09-23'),
+M(4,'룩백','10/8 개봉 · 박스오피스 4위','2026-10-08'),
+M(5,'부활남: 더 레드','구교환·신승호 · 액션 · 15세 이상','2026-09-30'),
+M(6,'가능한 사랑','최민식·한소희 · 드라마 · 12세 이상','2026-09-23'),
+{id:7,t:'뮤지컬 〈헬스키친〉',g:'뮤지컬',r:'서울',v:'GS아트센터',p:'인터파크',seats:[['VIP석',170000],['OP석',170000],['R석',150000],['S석',110000],['A석',80000]],s:'2026-07-24',e:'2026-11-08',n:'8세 이상 · 160분'},
+{id:8,t:'뮤지컬 〈스위니토드〉 10주년',g:'뮤지컬',r:'서울',v:'디큐브 링크아트센터',p:'인터파크',seats:[['VIP석',180000],['R석',150000],['S석',110000],['A석',80000]],s:'2026-12-04',e:'2027-03-31',n:'1차 티켓오픈 10/13 11시 · 12/4~20 회차'},
+{id:9,t:'연극 〈로프〉',g:'연극',r:'서울',v:'대학로 업스테이지',p:'인터파크',seats:[['R석',55000],['S석',44000]],s:'2026-09-18',e:'2026-10-25'},
+{id:10,t:'연극 〈VL〉',g:'연극',r:'서울',v:'대학로 링크더스페이스',p:'인터파크',seats:[['VL석',66000]],s:'2026-09-01',e:'2026-11-29'},
+{id:11,t:'연극 〈서울의별〉',g:'연극',r:'서울',v:'대학로 스타릿홀',p:'인터파크',seats:[['일반석',50000],['특별석',50000]],s:'2026-07-31',e:'2026-10-18',n:'12세 이상 · 110분'},
+{id:12,t:'연극 〈여행의지도〉',g:'연극',r:'서울',v:'대학로 코델 아트홀',p:'인터파크',seats:[['전석',50000]],s:'2026-10-14',e:'2026-10-25',n:'13세 이상 · 80분 · 월요일 휴연'},
+{id:13,t:'제16회 광주비엔날레 〈너는 네 삶을 바꿔야 한다〉',g:'전시',r:'전남광주',v:'광주비엔날레 전시관 · ACC 등',p:'인터파크',seats:[['성인 일반',20000],['전남광주통합 특별할인',14000,{k:'지역 할인',rg:'전남광주',c:'전남광주통합특별시 관련 대상자 본인에 한해 적용돼요. 신분증 등 증빙을 현장 매표소에 제시해야 하고, 타인에게 양도할 수 없어요.'}],['재관람 할인',10000,{k:'재관람 할인',c:'이전에 관람한 입장권 등 재관람을 확인할 수 있는 증빙이 필요할 수 있어요. 정확한 조건은 예매처 안내에서 확인하세요.'}]],s:'2026-09-05',e:'2026-11-15',n:'매주 월요일 휴관 · 할인 권종은 예매처에서 증빙 확인'},
+{id:14,t:'오인환 vs. 장서영: 휴먼 에러',g:'전시',r:'서울',v:'서울시립 북서울미술관',p:'인터파크',seats:[['일반 관람',5000]],s:'2026-08-13',e:'2026-10-25',est:1},
+{id:15,t:'유영국: 산은 내 안에 있다',g:'전시',r:'서울',v:'서울시립미술관 서소문본관',p:'인터파크',seats:[['일반 관람',5000]],s:'2026-05-19',e:'2026-10-25',est:1,n:'한국 근대 거장전'},
+{id:16,t:'제31회 부산국제영화제',g:'페스티벌',r:'부산',v:'영화의전당·센텀시티 일원',p:'인터파크',seats:[['상영작 1회 관람',8000]],s:'2026-10-06',e:'2026-10-15',est:1,n:'10/6~10/15 · 상영작별 예매'},
+{id:17,t:'제8회 공연예술축제 그라제',g:'페스티벌',r:'전남광주',v:'예술의전당(구 광주예술의전당) 소극장',p:'인터파크',seats:[['최저가 작품',39500],['최고가 작품',70000]],s:'2026-10-01',e:'2026-10-31',n:'작품별 요금 상이 · 일정은 예매처 확인'},
+{id:18,t:'도서 구매 (신간·베스트셀러)',g:'도서',r:'전국',v:'YES24 온라인 서점',p:'YES24',seats:[['도서 1권',15000],['도서 2권',30000]],s:'2026-01-01',e:'2026-12-31',est:1,nd:1}
+];
+const SHOWS=RAW.filter(s=>s.e>=TODAY);
+const fmt=x=>x.slice(5).replace('-','/');
+const dday=s=>Math.round((new Date(s.e)-new Date(TODAY))/864e5);
+function stat(s){if(s.s>TODAY)return{t:fmt(s.s)+(s.g=='영화'?' 개봉':' 개막')};if(!s.nd&&dday(s)<=7)return{t:'종료 D-'+dday(s),w:1};return{t:s.g=='영화'?'상영 중':s.g=='도서'?'판매 중':'진행 중'}}
+const EVENTS=[{t:'신규 발급 인증샷 이벤트',d:'발급 화면 캡처 후 후기 작성 시 추첨 100명 팝콘 쿠폰',b:'~11/30'},{t:'친구 초대하고 같이 관람',d:'초대 코드로 가입한 친구와 같은 공연 예매 시 쿠폰 지급',b:'상시'},{t:'첫 장르 도전 챌린지',d:'처음 보는 장르를 패스로 관람하면 인증 배지 + 쿠폰',b:'~12/31'}];
+const COUPONS=[{id:'c1',t:'영화 3,000원 할인',d:'YES24 영화 예매 시',v:'3,000원'},{id:'c2',t:'뮤지컬 10% 할인',d:'참여 공연 한정, 최대 8,000원',v:'10%'},{id:'c3',t:'전시 1+1',d:'지정 전시 동반 1인 무료',v:'1+1'}];
+</script>
+<script>
+const IC={home:'<path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>',search:'<circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/>',ticket:'<path d="M3 9a2 2 0 0 0 0 6v3h18v-3a2 2 0 0 1 0-6V6H3z"/><path d="M14 6v12" stroke-dasharray="2 2"/>',gift:'<rect x="3" y="8" width="18" height="4"/><path d="M5 12v9h14v-9M12 8v13M12 8c-2-4-6-3-5 0M12 8c2-4 6-3 5 0"/>',user:'<circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/>',bell:'<path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4z"/><path d="M10 21h4"/>',wallet:'<rect x="3" y="6" width="18" height="14" rx="2"/><path d="M3 10h18M16 15h2"/>',edit:'<path d="M4 20h4L19 9l-4-4L4 16z"/>',phone:'<rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/>'};
+const ic=n=>`<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${IC[n]}</svg>`;
+function anim(){const m=$('#main');m.classList.remove('vin');void m.offsetWidth;m.classList.add('vin')}
+const AU={m:'PASS',name:'',birth:'',tc:'SKT',tel:'',rg:'',ag:false,sent:false,code:'',ok:false,err:''};
+const AMS=['PASS 앱','문자(SMS)','카카오 인증서','네이버 인증서'];
+const authAge=()=>2026-(+AU.birth.slice(0,4));
+const authOK=()=>{const g=authAge(),r=MODE[st.mode].age;return g>=r[0]&&g<=r[1]};
+function authBody(){
+ const r=MODE[st.mode].age;
+ if(AU.ok) return `<div class="alert ok">본인 인증 완료 · ${AU.name} 님 (만 ${authAge()}세)</div>${authOK()?`<div class="alert ok" style="margin-top:8px">청년문화패스 신청 대상이에요!</div>`:`<div class="alert" style="margin-top:8px">현재 기준(${MODE[st.mode].name}, ${r[0]}~${r[1]}세)으로는 대상이 아니에요.</div>${st.mode=='y26'?`<button class="btn ghost" style="margin-top:8px" onclick="st.mode='y27';onboard()">2027 정부안 기준으로 확인하기</button>`:''}<button class="btn ghost" style="margin-top:8px" onclick="AU.ok=false;AU.sent=false;AU.birth='';onboard()">다시 인증하기</button>`}`;
+ if(AU.sent) return AU.m=='문자(SMS)'
+  ? `<div class="card"><b>인증번호 6자리를 입력해 주세요</b><p class="sub" style="margin:4px 0 10px">${AU.tel}로 인증번호를 보냈어요. (데모 인증번호: <b>123456</b>)</p><input type="number" placeholder="인증번호 6자리" oninput="AU.code=this.value"><div class="alert" style="${AU.err?'':'display:none'};margin-top:8px">${AU.err}</div><button class="btn" style="margin-top:10px" onclick="verAuth()">확인</button><button class="btn ghost" style="margin-top:8px" onclick="AU.sent=false;AU.err='';rb()">처음으로</button></div>`
+  : `<div class="card" style="text-align:center"><div style="color:var(--brand)">${ic('phone')}</div><b>${AU.m}에서 인증 요청을 보냈어요</b><p class="sub" style="margin:4px 0 12px">${AU.tel} · ${AU.tc}<br>앱에서 인증을 승인한 뒤 아래 버튼을 눌러주세요.</p><button class="btn" onclick="AU.code='123456';verAuth()">승인 완료 (시뮬레이션)</button><button class="btn ghost" style="margin-top:8px" onclick="AU.sent=false;rb()">취소</button></div>`;
+ return `<div class="chips" style="margin:6px 0 10px">${AMS.map(m=>`<button class="chip ${AU.m==m?'on':''}" onclick="AU.m='${m}';rb()">${m}</button>`).join('')}</div>
+ <div class="lbl">이름</div><input type="text" placeholder="홍길동" value="${AU.name}" oninput="AU.name=this.value">
+ <div class="lbl" style="margin-top:10px">생년월일 8자리</div><input type="number" placeholder="예: 20070315" value="${AU.birth}" oninput="AU.birth=this.value">
+ <div class="lbl" style="margin-top:10px">통신사</div><div class="chips">${['SKT','KT','LGU+','알뜰폰'].map(t=>`<button class="chip ${AU.tc==t?'on':''}" onclick="AU.tc='${t}';rb()">${t}</button>`).join('')}</div>
+ <div class="lbl" style="margin-top:10px">휴대폰 번호</div><input type="number" placeholder="01012345678" value="${AU.tel}" oninput="AU.tel=this.value">
+ <div class="lbl" style="margin-top:10px">거주 지역 (시·도)</div><div class="chips">${REG.map(r=>`<button class="chip ${AU.rg==r?'on':''}" onclick="AU.rg='${r}';rb()">${r}</button>`).join('')}</div><div class="note">지원금은 거주 지역에 따라 달라져요. 실제 PASS 인증은 이름·생년월일 등만 확인되고 주소는 제공되지 않아, 실서비스에서는 주민등록 주소 확인(정부24 등 연계)이 추가로 필요해요.</div>
+ <button class="chip ${AU.ag?'on':''}" style="margin-top:12px;width:100%;text-align:left" onclick="AU.ag=!AU.ag;rb()">${AU.ag?'✓':'□'} 개인정보 수집·이용 및 본인확인 서비스 약관에 모두 동의</button>
+ <div class="alert" style="${AU.err?'':'display:none'};margin-top:10px">${AU.err}</div>
+ <button class="btn" style="margin-top:12px" onclick="reqAuth()">인증 요청</button>
+ <button class="btn ghost" style="margin-top:8px" onclick="Object.assign(AU,{name:'홍길동',birth:'20070315',tel:'01012345678',tc:'SKT',rg:'서울',ag:true});rb()">예시 정보 채우기</button>`}
+function rb(){const e=$('#ab');if(e)e.innerHTML=authBody()}
+function reqAuth(){const b=AU.birth,y=+b.slice(0,4),mo=+b.slice(4,6),dy=+b.slice(6,8);
+ AU.err=AU.name.trim().length<2?'이름을 입력해 주세요.':!(b.length==8&&y>1980&&y<2015&&mo>=1&&mo<=12&&dy>=1&&dy<=31)?'생년월일 8자리를 정확히 입력해 주세요.':!/^01\d{8,9}$/.test(AU.tel)?'휴대폰 번호를 정확히 입력해 주세요.':!AU.rg?'거주 지역을 선택해 주세요.':!AU.ag?'약관에 동의해 주세요.':'';
+ if(!AU.err)AU.sent=true;rb()}
+function verAuth(){if(AU.code=='123456'){AU.ok=true;AU.err='';st.region=AU.rg;st.birth=AU.birth.slice(0,4);onboard()}else{AU.err='인증번호가 맞지 않아요. 다시 확인해 주세요.';rb()}}
+function chk(){const e=$('#nx');if(e)e.disabled=!(AU.ok&&authOK())}
+const st={step:0,mode:'y26',tab:'home',birth:'',region:'',ints:[],bal:0,total:0,hist:[],coupons:[],promo:true,gF:'전체',rF:'전체',chg:false,pF:'전체',only:false,fit:false,nt:{bal:true,survey:true,event:true},sv:{done:false},theme:null};
+const $=s=>document.querySelector(s),L=$('#layer');
+const total=()=>CAP.includes(st.region)?MODE[st.mode].cap:MODE[st.mode].non;
+const minP=s=>Math.min(...s.seats.filter(x=>!x[2]).map(x=>x[1]).filter(x=>x>0));
+const DEADLINE=17; // 데모: 이용 기한까지 남은 일수
+const grad=i=>COL[i%8];
+function render(){ if(st.step<5) return onboard(); home(); }
+function steps(n){return `<div class="step">${[1,2,3,4].map(i=>`<i class="${i<=n?'on':''}"></i>`).join('')}</div>`}
+function onboard(){
+ $('#tabs').innerHTML='';let m=$('#main'),h='';
+ if(st.step==0) h=`<div style="padding-top:60px"><div class="poster" style="width:76px;height:76px;border-radius:24px;background:var(--pt);color:#1d2523;font-size:30px;align-items:center;justify-content:center;padding:0">${ic('ticket')}</div><h1 style="margin-top:20px;font-size:28px">문화생활,<br>남은 지원금까지<br>한 번에 챙겨요</h1><p class="sub" style="margin:12px 0 28px">청년문화패스 신청부터 공연 추천, 예매처 연결, 잔액 알림까지 한 앱에서.</p><button class="btn" onclick="go(1)">시작하기</button><p class="note" style="text-align:center">※ 팀 연구용 프로토타입 · 모든 공연·금액은 예시 데이터입니다</p></div>`;
+ if(st.step==1)h=`${steps(1)}<h1>본인 인증을 해주세요</h1><p class="sub" style="margin:6px 0 14px">만 ${MODE[st.mode].age[0]}~${MODE[st.mode].age[1]}세 청년인지 확인해요. <b>예시 화면이며 입력한 정보는 저장·전송되지 않아요.</b></p><div id="ab">${authBody()}</div><div style="height:16px"></div><button class="btn" id="nx" onclick="go(2)" disabled>다음</button>`;
+ if(st.step==2) h=`${steps(2)}<h1>거주 지역을 확인해요</h1><p class="sub" style="margin:6px 0 14px">지역에 따라 지원금이 달라요. 수도권 ${W(MODE[st.mode].cap)} · 비수도권 ${W(MODE[st.mode].non)}</p>${st.region&&!st.chg?`<div class="card"><div class="sub">본인 인증 때 입력한 지역</div><div class="row between" style="margin:4px 0"><b style="font-size:22px">${st.region}</b><span class="tag">${CAP.includes(st.region)?'수도권':'비수도권'}</span></div><div class="price">지원금 ${W(total())}</div><div class="note">실서비스에서는 주민등록상 주소지와 일치하는지 확인하는 절차가 필요해요. (예시)</div></div><button class="btn" style="margin-top:14px" onclick="go(3)">이 지역이 맞아요</button><button class="btn ghost" style="margin-top:8px" onclick="st.chg=true;onboard()">다른 지역으로 변경</button>`:`<div class="alert">인증 때 입력한 지역과 다르게 선택하면 발급이 제한될 수 있어요.</div><div class="reg" style="margin-top:12px">${REG.map(r=>`<button class="${st.region==r?'on':''}" onclick="st.region='${r}';onboard()">${r}</button>`).join('')}</div><div style="height:20px"></div><button class="btn" onclick="st.chg=false;go(3)" ${st.region?'':'disabled'}>다음</button>`}`;
+ if(st.step==3) h=`${steps(3)}<h1>관심 있는 분야를 골라주세요</h1><p class="sub" style="margin:6px 0 16px">여러 개 선택할 수 있고, 맞춤 추천에 사용돼요. 새로운 장르에도 도전해 보세요!</p><div class="chips">${GEN.map(g=>`<button class="chip ${st.ints.includes(g)?'on':''}" onclick="tg('${g}')">${g}</button>`).join('')}</div><div style="height:24px"></div><button class="btn" onclick="go(4)" ${st.ints.length?'':'disabled'}>다음</button>`;
+ if(st.step==4) h=`${steps(4)}<h1>패스를 발급받아요</h1><p class="sub" style="margin:6px 0 16px">발급은 예매처에서 진행되며, 포인트는 선택한 예매처에서만 쓸 수 있어요.</p><div class="card"><div class="row between"><b>${st.region}</b><span class="tag">${CAP.includes(st.region)?'수도권':'비수도권'}</span></div><div class="big" style="font-size:26px;font-weight:900;margin:6px 0">${W(total())}</div><div class="sub">관심: ${st.ints.join(', ')}</div></div><h2>예매처 선택</h2><button class="seat" onclick="issue('인터파크')"><span><b>인터파크</b><br><span class="sub">공연·전시 중심</span></span><span>발급 →</span></button><button class="seat" onclick="issue('YES24')"><span><b>YES24</b><br><span class="sub">공연·영화·도서</span></span><span>발급 →</span></button><p class="note">※ 한 번 선택하면 포인트 교환이 불가하다는 현행 구조를 반영했어요. 최초 1회 발급 시 안내 문구를 꼭 보여줘야 합니다.</p>`;
+ m.innerHTML=h;chk();}
+function go(n){st.step=n;render();anim()}function tg(g){const i=st.ints.indexOf(g);i<0?st.ints.push(g):st.ints.splice(i,1);onboard()}
+function issue(p){st.plat=p;st.total=st.bal=total();st.step=5;st.tab='home';toast(`${p}에서 ${W(st.bal)} 발급 완료`);render()}
+function toast(t){const d=document.createElement('div');d.textContent=t;d.style.cssText='position:absolute;left:16px;right:16px;bottom:80px;background:#1d2523;color:#fff;padding:12px;border-radius:12px;text-align:center;z-index:9';$('#app').append(d);setTimeout(()=>d.remove(),2200)}
+function tabs(){const T=[['home','home','홈'],['find','search','공연 찾기'],['fab','ticket','예매'],['perk','gift','혜택'],['my','user','MY']];$('#tabs').innerHTML=T.map(t=>t[0]=='fab'?`<button class="fab" onclick="quick()" aria-label="간편 예매"><b>${ic(t[1])}</b><span>${t[2]}</span></button>`:`<button class="${st.tab==t[0]?'on':''}" onclick="st.tab='${t[0]}';home()"><b>${ic(t[1])}</b>${t[2]}</button>`).join('')}
+function home(){tabs();$('#main').style.padding='';({home:vHome,find:vFind,perk:vPerk,my:vMy})[st.tab]();$('#main').scrollTop=0;anim();if(st.promo&&st.tab=='home'){st.promo=false;promo()}}
+function showCard(s){const lo=minP(s),fit=lo<=st.bal,sx=stat(s);return `<button class="card show" onclick="detail(${s.id})"><div class="poster" style="background:${grad(s.id)}">${s.g}</div><div style="flex:1"><div class="row" style="flex-wrap:wrap;gap:4px"><span class="tag">${s.r}</span><span class="tag ${sx.w?'w':''}">${sx.t}</span>${s.seats.some(y=>y[2])?'<span class="tag w">할인 권종 · 예매처 확인</span>':''}${st.ints.includes(s.g)?'<span class="tag">관심</span>':''}</div><div style="font-weight:700;margin:3px 0;line-height:1.35">${s.t}</div><div class="sub">${s.v}${s.nd?'':' · '+fmt(s.s)+'~'+fmt(s.e)}</div><div class="price">${W(lo)}~ ${s.est?'<span class="sub">(예시가)</span>':''} ${fit?'':'<span class="tag w">잔액 부족</span>'}</div></div></button>`}
+function mine(){return SHOWS.filter(s=>s.r=='전국'||s.r==st.region||st.ints.includes(s.g)&&false)}
+function reco(){return SHOWS.filter(s=>(s.r=='전국'||s.r==st.region)&&minP(s)<=st.bal&&st.ints.includes(s.g)||(st.ints.includes(s.g)&&minP(s)<=st.bal))}
+function notices(){const n=[];if(st.nt.bal&&st.bal>0)n.push(['wallet',`사용할 수 있는 지원금이 ${W(st.bal)} 남았어요`,`${DEADLINE}일 안에 사용하세요!`]);if(st.nt.survey&&st.hist.length&&!st.sv.done)n.push(['edit','관람은 어떠셨나요?','1분 만족도 조사 참여하고 쿠폰 받기']);if(pendN().length)n.push(['edit','할인 예매 확인이 필요해요','예매처에서 할인 적용을 확인하고 MY에서 확인 완료를 눌러 주세요']);if(st.nt.event)n.push(['gift','첫 장르 도전 챌린지','처음 보는 장르를 관람하면 쿠폰 지급']);return n}
+function bell(){const n=notices();L.innerHTML=`<div class="scrim" onclick="if(event.target==this)closeLayer()"><div class="sheet"><h2 style="margin-top:0">알림</h2>${n.length?n.map((x,i)=>`<button class="nrow" onclick="${i==0&&x[0]=='wallet'?"closeLayer();st.tab='find';st.fit=true;home()":x[0]=='edit'?'survey()':"closeLayer();st.tab='perk';home()"}"><span style="color:var(--brand);padding-top:2px">${ic(x[0])}</span><span><b>${x[1]}</b><br><span class="sub">${x[2]}</span></span></button>`).join(''):'<p class="sub">새 알림이 없어요.</p>'}</div></div>`}
+function quick(){L.innerHTML=`<div class="scrim" onclick="if(event.target==this)closeLayer()"><div class="sheet"><h2 style="margin-top:0">간편 예매</h2><div class="pcard"><div class="row between"><b>청년문화패스</b><span class="tag" style="background:rgba(255,255,255,.25);color:#fff">${st.plat}</span></div><div style="font-size:26px;font-weight:900;margin-top:8px">${W(st.bal)}</div><div style="opacity:.85;font-size:12px">${st.region} · ${CAP.includes(st.region)?'수도권':'비수도권'}</div><div class="barcode"></div></div><p class="sub" style="margin-bottom:10px">발급받은 예매처에서 패스 포인트로 결제해요.</p><button class="btn" onclick="closeLayer();toast('${st.plat}로 이동해요 (시뮬레이션)')">${st.plat} 열기</button><button class="btn ghost" style="margin-top:8px" onclick="closeLayer();st.tab='find';home()">공연부터 둘러보기</button></div></div>`}
+function vHome(){
+ const used=st.total-st.bal,pc=Math.round(used/st.total*100),n=notices().length,rc=reco().slice(0,6);
+ $('#main').style.padding='0 0 24px';
+ $('#main').innerHTML=`<div class="top"><div class="row between"><div class="logo">청년문화패스<small>${st.region} · ${CAP.includes(st.region)?'수도권':'비수도권'}</small></div><button class="bell" onclick="bell()" aria-label="알림">${ic('bell')}${n?`<i>${n}</i>`:''}</button></div></div>
+ <div class="wal"><div class="row between"><span class="sub">나의 문화지원금</span><span class="tag">${st.plat}</span></div><div class="amt">${W(st.bal)}</div><div class="bar"><i style="width:${100-pc}%"></i></div><div class="row between sub"><span>사용 ${W(used)}</span><span>전체 ${W(st.total)}</span></div>
+ ${st.bal==0?'<div class="alert ok">지원금을 모두 사용했어요</div>':st.nt.bal?`<div class="alert">사용할 수 있는 지원금이 <b>${W(st.bal)}</b> 남았어요, <b>${DEADLINE}일</b> 안에 사용하세요!</div>`:''}
+ ${pendN().length?`<div class="alert" style="margin-top:10px">할인 예매 ${pendN().length}건은 예매처 확인 후 반영돼요 (예상 -${W(pendN().reduce((q,h)=>q+h.pass,0))})</div>`:''}<div class="acts"><button onclick="quick()">예매하기</button><button onclick="st.tab='my';home()">사용내역</button></div></div>
+ <div class="grid4">${[['search','공연 찾기',"st.tab='find'"],['wallet','잔액 맞춤',"st.tab='find';st.fit=true"],['gift','이벤트',"st.tab='perk'"],['ticket','내 쿠폰',"st.tab='perk'"]].map(g=>`<button onclick="${g[2]};home()"><span>${ic(g[0])}</span>${g[1]}</button>`).join('')}</div>
+ <div class="hs" style="margin:6px 0 4px"><button class="banner" onclick="st.tab='perk';home()"><b style="font-size:16px">신규 발급 인증샷 이벤트</b><br><span style="opacity:.9;font-size:12.5px">팝콘 쿠폰 추첨 · ~11/30</span></button><button class="banner b2" onclick="st.tab='perk';home()"><b style="font-size:16px">첫 장르 도전 챌린지</b><br><span style="opacity:.9;font-size:12.5px">처음 보는 장르 관람 시 쿠폰 · ~12/31</span></button></div>
+ <div class="pad"><h2>내 잔액으로 볼 수 있는 맞춤 공연</h2></div>${rc.length?`<div class="hs">${rc.map(s=>`<button class="mini" onclick="detail(${s.id})"><div class="poster" style="background:${grad(s.id)}">${s.g}</div><div class="b"><div style="font-weight:700;font-size:13px;line-height:1.3">${s.t}</div><div class="sub">${s.r}</div><div class="price">${W(minP(s))}~</div></div></button>`).join('')}</div>`:'<p class="sub pad">조건에 맞는 공연이 없어요. 공연 찾기에서 분야를 넓혀 보세요.</p>'}
+ ${st.nt.survey&&st.hist.length&&!st.sv.done?`<div class="pad"><button class="card row" style="width:100%;margin-top:14px;text-align:left" onclick="survey()"><span style="color:var(--brand)">${ic('edit')}</span><span style="flex:1"><b>관람은 어떠셨나요?</b><br><span class="sub">1분 만족도 조사 · 참여하면 쿠폰 지급</span></span>›</button></div>`:''}`}
+function inR(p,f){const L={'3만원 이하':3e4,'7만원 이하':7e4,'10만원 이하':1e5};return f=='전체'||p<=L[f]}
+function rOK(s){const f=st.rF;return f=='전체'||(f=='내 지역'?s.r==st.region:f=='전국'?s.r=='전국':s.r==f)}
+function vFind(){
+ const c={};SHOWS.forEach(s=>c[s.r]=(c[s.r]||0)+1);const mine=c[st.region]||0;
+ const others=Object.keys(c).filter(r=>r!='전국'&&r!=st.region).sort((x,y)=>c[y]-c[x]);
+ const R=[['전체',`전체 ${SHOWS.length}`],['내 지역',`내 지역(${st.region}) ${mine}`],['전국',`전국 공통 ${c['전국']||0}`],...others.map(r=>[r,`${r} ${c[r]}`])];
+ const l=SHOWS.filter(s=>(st.gF=='전체'||s.g==st.gF)&&inR(minP(s),st.pF)&&(!st.fit||minP(s)<=st.bal)&&rOK(s)).sort((x,y)=>(st.ints.includes(y.g)-st.ints.includes(x.g))||((x.r==st.region?0:x.r=='전국'?1:2)-(y.r==st.region?0:y.r=='전국'?1:2))||minP(x)-minP(y));
+ const ds=st.rF=='전체'?'모든 지역의 공연을 보여줘요':st.rF=='내 지역'?`${st.region}에서 열리는 공연만 보여줘요`:st.rF=='전국'?'영화·도서처럼 전국 어디서나 쓸 수 있는 항목이에요':`${st.rF}에서 열리는 공연만 보여줘요`;
+ $('#main').innerHTML=`<h1>공연 찾기</h1><p class="sub" style="margin:4px 0 14px">관심 분야와 내 지역이 먼저 보여요</p>
+ <div class="lbl">지역</div><div class="hs" style="padding:0;margin-bottom:4px">${R.map(r=>`<button class="chip ${st.rF==r[0]?'on':''}" onclick="st.rF='${r[0]}';vFind()">${r[1]}</button>`).join('')}</div>
+ <p class="note" style="margin:0 0 12px">${ds}</p>
+ <div class="lbl">분야</div><div class="hs" style="padding:0;margin-bottom:12px">${['전체',...GEN].map(g=>`<button class="chip ${st.gF==g?'on':''}" onclick="st.gF='${g}';vFind()">${g}</button>`).join('')}</div>
+ <div class="lbl">가격 (가장 저렴한 좌석 기준)</div><div class="chips" style="margin-bottom:12px">${['전체','3만원 이하','7만원 이하','10만원 이하'].map(g=>`<button class="chip ${st.pF==g?'on':''}" onclick="st.pF='${g}';vFind()">${g}</button>`).join('')}</div>
+ <div class="card row between" style="margin-bottom:14px"><span>남은 지원금 <b>${W(st.bal)}</b>으로 가능한 것만</span><button class="tog ${st.fit?'on':''}" onclick="st.fit=!st.fit;vFind()" aria-label="잔액 맞춤"></button></div>
+ <div class="row between" style="margin-bottom:8px"><b>${l.length}개</b></div>
+ ${l.length?l.map(showCard).join(''):`<div class="card sub">조건에 맞는 공연이 없어요.${st.rF=='내 지역'?` 현재 등록된 ${st.region} 공연이 적어요. '전국 공통'이나 다른 지역을 눌러 보세요.`:' 필터를 줄여 보세요.'}</div>`}`}
+function vPerk(){
+ $('#main').innerHTML=`<h1>혜택</h1><h2>진행 중인 이벤트</h2>${EVENTS.map(e=>`<div class="card" style="margin-bottom:10px"><div class="row between"><b>${e.t}</b><span class="tag">${e.b}</span></div><div class="sub" style="margin-top:4px">${e.d}</div></div>`).join('')}
+ <h2>받을 수 있는 쿠폰</h2>${COUPONS.map(c=>{const h=st.coupons.includes(c.id);return `<div class="coupon"><div><b>${c.t}</b><div class="sub">${c.d}</div></div><div>${h?'<span class="sub">보관 중</span>':`<button onclick="st.coupons.push('${c.id}');toast('쿠폰을 받았어요');vPerk()" style="color:var(--brand-d);font-weight:700">받기</button>`}</div></div>`}).join('')}<p class="note">※ 쿠폰은 예매 단계에서 선택 적용되는 방식으로 설계했어요.</p>`}
+function vMy(){
+ const m=st.mode;
+ $('#main').innerHTML=`<h1>MY</h1>
+ <div class="card" style="margin:12px 0"><div class="row between"><b>${st.region} · ${st.plat}</b><button class="tag" onclick="st.step=2;st.chg=true;st.hist=[];onboard()">지역 변경</button></div><div class="sub" style="margin:4px 0 8px">관심 분야</div><div class="chips">${GEN.map(g=>`<button class="chip ${st.ints.includes(g)?'on':''}" onclick="tg2('${g}')">${g}</button>`).join('')}</div></div>
+ <h2>사용 내역</h2><div class="card">${st.hist.length?st.hist.map((h,k)=>histRow(h,k)).join(''):'<span class="sub">아직 사용 내역이 없어요. 공연 찾기에서 첫 관람을 골라보세요.</span>'}</div>
+ <h2>알림 설정</h2><div class="card">${[['bal','잔여 지원금·기한 알림'],['survey','만족도 조사 알림'],['event','이벤트·쿠폰 알림']].map(a=>`<div class="row between" style="padding:6px 0"><span>${a[1]}</span><button class="tog ${st.nt[a[0]]?'on':''}" onclick="st.nt['${a[0]}']=!st.nt['${a[0]}'];vMy()" aria-label="${a[1]}"></button></div>`).join('')}</div>
+ <h2>제도 시나리오 (연구용)</h2><div class="chips"><button class="chip ${m=='y26'?'on':''}" onclick="setMode('y26')">2026 현행</button><button class="chip ${m=='y27'?'on':''}" onclick="setMode('y27')">2027 정부안</button></div><p class="note">2027안: 19~34세, 인당 10~15만원, 매년 지급, 국회 심의 중이라 변경될 수 있어요. (수도권 10 / 비수도권 15로 가정)</p>
+ <button class="btn ghost" style="margin-top:16px" onclick="st.promo=true;st.tab='home';home()">홍보 팝업 다시 보기</button>
+ <button class="btn ghost" style="margin-top:8px" onclick="location.reload()">처음부터 다시 체험</button>`}
+function tg2(g){const i=st.ints.indexOf(g);if(i<0)st.ints.push(g);else if(st.ints.length>1)st.ints.splice(i,1);vMy()}
+function setMode(k){st.mode=k;const used=st.total-st.bal;st.total=total();st.bal=Math.max(0,st.total-used);vMy()}
+function closeLayer(){L.innerHTML=''}
+function promo(){L.innerHTML=`<div class="scrim mid" onclick="if(event.target==this)closeLayer()"><div class="sheet" style="padding:0;overflow:hidden"><div style="background:linear-gradient(140deg,#1f9e92,#4cc9bc);color:#fff;padding:26px 20px"><div class="tag" style="background:#ffc531;color:#1d2523">NEW</div><h1 style="margin-top:10px">첫 관람 인증하면<br>팝콘 쿠폰 증정!</h1><p style="margin-top:6px;opacity:.9">신규 장르 도전 챌린지 · ~12/31</p></div><div class="row" style="padding:12px;gap:8px"><button class="btn ghost" onclick="closeLayer()">오늘은 그만 보기</button><button class="btn" onclick="closeLayer();st.tab='perk';home()">이벤트 보기</button></div></div></div>`}
+function detail(id){const s=SHOWS.find(x=>x.id==id);st.sel={s,i:0};dsheet()}
+function dsheet(){const {s,i}=st.sel,x=s.seats[i],p=x[1],o=x[2]||null,pass=Math.min(st.bal,p),own=p-pass,mism=o&&o.rg&&o.rg!=st.region;
+ L.innerHTML=`<div class="scrim" onclick="if(event.target==this)closeLayer()"><div class="sheet"><div class="row" style="gap:12px"><div class="poster" style="background:${grad(s.id)}">${s.g}</div><div><span class="tag">${s.r}</span><h2 style="margin:4px 0 2px">${s.t}</h2><div class="sub">${s.v} · ${s.p}</div></div></div>
+ <div class="sub" style="margin-top:8px">${s.nd?stat(s).t:fmt(s.s)+' ~ '+fmt(s.e)}${s.n?' · '+s.n:''}</div>${s.est?'<p class="note">※ 이 항목의 가격은 예시값이에요. 실제 요금은 예매처에서 확인하세요.</p>':''}
+ <h2>좌석·옵션 선택</h2>${s.seats.map((y,k)=>{const dd=y[2];return `<button class="seat ${k==i?'on':''} ${!dd&&y[1]>st.bal?'no':''}" onclick="st.sel.i=${k};dsheet()"><span><b>${y[0]}</b>${dd?`<br><span class="tag w">${dd.k} · 예매처 확인 필요</span>`:''}</span><span style="text-align:right">${W(y[1])}<br>${dd?'':(y[1]>st.bal?'<span class="tag w">자부담 '+W(y[1]-st.bal)+'</span>':'<span class="tag">전액 지원</span>')}</span></button>`}).join('')}
+ ${o?`<div class="alert"><b>${o.k}</b>는 앱에서 바로 적용할 수 없어요. 예매처에서 해당 권종을 직접 선택하고 조건을 확인해야 해요.${mism?`<br>이 할인은 ${o.rg} 대상이라 내 지역(${st.region})은 해당하지 않을 수 있어요.`:''}</div>
+ <div class="sum"><div><span>예상 금액 (예매처에서 확정)</span><span>${W(p)}</span></div><div class="sub"><span>지원금 반영</span><span>예매처 확인 후</span></div></div>
+ <button class="btn" onclick="st.ck=false;dchk()">예매처 확인 사항 보고 이동하기</button>`
+ :`<div class="sum"><div><span>티켓 금액</span><span>${W(p)}</span></div><div><span>패스 사용</span><span style="color:var(--brand-d)">-${W(pass)}</span></div><div><b>내가 낼 금액</b><b>${W(own)}</b></div><div class="sub"><span>사용 후 잔액</span><span>${W(st.bal-pass)}</span></div></div>
+ ${own>0?`<div class="alert">좌석을 한 단계 낮추면 전액 지원돼요</div>`:''}
+ <p class="note" style="margin:0 0 10px">※ 좌석별 가격과 잔여석은 예매처 실시간 데이터 연동이 필요해요(API 확인 필요).</p>
+ <button class="btn" onclick="redir()" ${st.bal==0?'disabled':''}>${s.p}에서 예매하기</button>`}</div></div>`}
+function dchk(){const {s,i}=st.sel,x=s.seats[i],o=x[2];
+ L.innerHTML=`<div class="scrim" onclick="if(event.target==this)closeLayer()"><div class="sheet"><h2 style="margin-top:0">예매처에서 꼭 확인하세요</h2><div class="card" style="margin-bottom:10px"><b>${s.t}</b><div class="sub">${x[0]} · 예상 ${W(x[1])} (예매처에서 확정)</div></div>
+ <div class="card" style="line-height:1.7"><b>${o.k} 확인 순서</b><br>1. ${s.p}에서 예매할 때 '${x[0]}' 권종을 직접 골라요.<br>2. 조건: ${o.c}<br>3. 증빙을 못 하면 현장에서 차액을 내야 할 수 있어요.<br>4. 결제 후 앱으로 돌아와 <b>사용내역에서 '확인 완료'</b>를 눌러야 지원금이 반영돼요.</div>
+ <button class="chip ${st.ck?'on':''}" style="margin:12px 0;width:100%;text-align:left" onclick="st.ck=!st.ck;dchk()">${st.ck?'✓':'□'} 조건과 필요한 증빙을 확인했어요</button>
+ <button class="btn" ${st.ck?'':'disabled'} onclick="redir()">${s.p}로 이동</button><button class="btn ghost" style="margin-top:8px" onclick="dsheet()">뒤로</button></div></div>`}
+function redir(){const {s,i}=st.sel;L.innerHTML=`<div class="scrim mid"><div class="sheet" style="text-align:center"><h2 style="margin:6px 0">${s.p}로 이동할게요</h2><p class="sub">패스 포인트를 쓸 수 있는 예매처 화면으로 연결돼요.<br>예매를 마치면 앱으로 돌아와 사용 내역을 반영해요.</p><div style="height:14px"></div><button class="btn" onclick="done()">이동 후 예매 완료 (시뮬레이션)</button><button class="btn ghost" style="margin-top:8px" onclick="dsheet()">취소</button></div></div>`}
+function done(){const {s,i}=st.sel,x=s.seats[i],p=x[1],pass=Math.min(st.bal,p);if(x[2]){st.hist.unshift({t:s.t,seat:x[0],p:s.p,pass,pend:true});closeLayer();toast('예매처에서 할인 적용을 확인해 주세요');home();return}st.bal-=pass;st.hist.unshift({t:s.t,seat:x[0],p:s.p,pass});closeLayer();toast(`${W(pass)} 사용 처리됐어요`);home()}
+function okPend(k){const h=st.hist[k];h.pend=false;h.pass=Math.min(st.bal,h.pass);st.bal-=h.pass;toast('지원금에 반영했어요');vMy()}
+function noPend(k){st.hist.splice(k,1);toast('확인 대기 내역을 삭제했어요');vMy()}
+const pendN=()=>st.hist.filter(h=>h.pend);
+function histRow(h,k){return h.pend?`<div style="padding:8px 0;border-bottom:1px solid var(--line)"><div class="row between"><span>${h.t}<br><span class="sub">${h.seat} · ${h.p}</span></span><b>예상 -${W(h.pass)}</b></div><div class="alert" style="margin:8px 0 6px">예매처에서 할인이 적용됐는지 확인해 주세요</div><div class="row" style="gap:8px"><button class="btn" style="padding:9px" onclick="okPend(${k})">확인 완료·반영</button><button class="btn ghost" style="padding:9px" onclick="noPend(${k})">할인 안 됨·취소</button></div></div>`:`<div class="row between" style="padding:5px 0"><span>${h.t}<br><span class="sub">${h.seat} · ${h.p}</span></span><b>-${W(h.pass)}</b></div>`}
+function survey(){let r=0;const draw=()=>{L.innerHTML=`<div class="scrim mid" onclick="if(event.target==this)closeLayer()"><div class="sheet"><h2 style="margin-top:0">패스 만족도</h2><p class="sub">${st.hist[0].t}을(를) 보셨네요</p><div class="row" style="gap:2px;margin:8px 0">${[1,2,3,4,5].map(n=>`<button class="star ${n<=r?'on':''}" onclick="rate(${n})" aria-label="${n}점">★</button>`).join('')}</div><div class="sub" style="margin:10px 0 6px">가장 아쉬운 점</div><div class="chips">${['티켓 가격','시간 부족','이동·교통','예매 절차','볼 공연 부족'].map(c=>`<button class="chip" onclick="this.classList.toggle('on')">${c}</button>`).join('')}</div><div style="height:16px"></div><button class="btn" onclick="st.sv.done=true;st.coupons.push('c1');closeLayer();toast('참여 감사! 쿠폰이 지급됐어요');home()">제출하고 쿠폰 받기</button></div></div>`};window.rate=n=>{r=n;draw()};draw()}
+render();
+</script>
 </body></html>
